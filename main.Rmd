@@ -1,7 +1,14 @@
 ---
 title: "RSPCA Australia"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
+
+```{r setup, include=FALSE} 
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+```
+
 
 ```{r}
 library(tidyverse)
@@ -103,6 +110,8 @@ animals %>%
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank()) 
 ```
+
+
 Not a massive difference in each animal type's region percentage apart from Wildlife for Queensland, noticeably a lot bigger percentage than the rest. Reproduce the Wildlife part of the plot below
 
 ```{r}
@@ -140,6 +149,8 @@ animals %>%
        colour = "Region") +
   theme_minimal()
 ```
+
+
 * Can see most regions have animal intakes have remained reasonably similar throughout the time period
 * Queensland is of interest as the numbers increase year-on-year between 2011-17, will look into this in more detail
 
@@ -169,10 +180,15 @@ animals %>%
 ```
 * Can see the increase in Queensland's numbers is due to an ever increasing number of wildlife received
 * Wildlife numbers:
+
+
+   
 | Year | Wildlife Received | Percentage Increase |
-|:----:|:-----------------:|---------------------|
+|:----:|:-----------------:|:-------------------:|
 | 2011 |        8312       |                     |
 | 2018 |       25385       |         205%        |
+
+
 
 * Upon further reading, RSPCA Queensland operates specialist wildlife clinics and receive, treat, rehabilitate and re-release wildlife. This explains the outlying numbers compared to other animal types
 
@@ -191,6 +207,8 @@ animals %>%
        y = "Total",
        colour = "Outcome")
 ```
+
+
 * Can see a decline in animals euthanized along with an increase in animals getting rehomed
 
 Will now look at if there are any noticeable changes when split by region, instead of looking at total numbers will look at the percentage of each outcome per region.
@@ -206,6 +224,7 @@ animals %>%
   geom_line() +
   facet_wrap(~outcome, scales = "free_y")
 ```
+
 Lines are messy, can't tell much from this plot. Will look at euthanized, rehomed and reclaimed individually as they take up the highest percentage.
 
 
@@ -290,6 +309,7 @@ townsville %>%
         colour = "")
 
 ```
+
 Can see call volumes have a seasonal trend, summer months (Southern Hemisphere seasons) have lower call volumes compared to winter.
 Will look at the difference between the the typically hottest months (Oct-Mar) compared to the cooler months.
 
@@ -305,9 +325,10 @@ townsville %>%
   mutate(percentage_increase = (cold-hot)/hot *100) %>%
   select(year, percentage_increase)
 ```
-Above shows the percentage increase in calls from the hotter months to colder for each year. Can see a 
 
- avg 26.7
+Above shows the percentage increase in calls from the hotter months to colder for each year. Can see calls follow seasonal changes.  
+
+Average increase per year = 26.7%
 
 
 ```{r}
@@ -409,6 +430,7 @@ forecast_test %>%
         x = "Year",
         y = "Calls")
 ```
+
 Looks like the ARIMA model is more accurate as the line follows the observed value line closer. We'll now check the accuracy
 
 ```{r}
@@ -428,6 +450,8 @@ best_model <- forecast_arima %>%
 
 best_model
 ```
+
+
 Looking at the forecast, we can see the seasonal trend continues and a slightly lower peak than previous years.
 
 ## Is there a particular animal being called about the most?
@@ -442,6 +466,8 @@ bind_townsville_brisbane %>%
             percentage_of_calls = n()/nrow(bind_townsville_brisbane)*100) %>%
   arrange(desc(calls))
 ```
+
+
 * Removed NA's from `animal_type` so percent column doesn't sum up to 100%   
 
 A large majority of the calls, 70%, are dog related, this is followed by cats who take up 11% of the calls. I will now look to see if this trend has been consistent over times
@@ -477,12 +503,15 @@ brisbane %>%
   group_by(area, category) %>%
   summarise(calls = n()) %>%
   ungroup(category) %>%
-  mutate(area_percent = calls/sum(calls)*100) %>%
-  arrange(desc(area_percent))
+  mutate(area_percent = calls/sum(calls)*100) %>% 
+  arrange(desc(area_percent)) %>%
+  head(10)
 ```
 
 Apart from South Brisbane, each area have the same top two type of complaint, fencing issues and wandering. The South has Fencing as it's highest complaint but where it differs fencing trapping being it's second highest issue. 
 
 
 ## Business Intelligence – using the insights you have found, can you predict how this might look for the upcoming year?
+
+
 
