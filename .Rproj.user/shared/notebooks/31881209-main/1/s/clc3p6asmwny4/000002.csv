@@ -1,6 +1,0 @@
-"0","forecast_arima %>%"
-"0","  autoplot(townsville_calls, level = 95) +"
-"0","  labs(title = ""ARIMA forecast for Townsville call volume"","
-"0","       x = ""Year"","
-"0","       y = ""Calls"","
-"0","       level = ""Prediction Interval %"")"

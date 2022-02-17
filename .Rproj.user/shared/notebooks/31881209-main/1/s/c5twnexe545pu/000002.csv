@@ -7,11 +7,11 @@
 "1",""
 "1","
 "
-"1","$ year         [3m[38;5;246m<dbl>[39m[23m 1999, 1999, 1999, 1999, 1999, 1999, 1999, 1999, 1999, 1999, 1999, 1999, 1999, 1999, 1999, 199…
-$ animal_type  [3m[38;5;246m<chr>[39m[23m ""Dogs"", ""Dogs"", ""Dogs"", ""Dogs"", ""Dogs"", ""Dogs"", ""Dogs"", ""Dogs"", ""Dogs"", ""Dogs"", ""Dogs"", ""Dogs…
-$ outcome      [3m[38;5;246m<chr>[39m[23m ""Reclaimed"", ""Reclaimed"", ""Reclaimed"", ""Reclaimed"", ""Reclaimed"", ""Reclaimed"", ""Reclaimed"", ""R…
-$ region       [3m[38;5;246m<chr>[39m[23m ""Australian Capital Territory"", ""New South Wales"", ""Northern Territory"", ""Queensland"", ""South…
-$ region_total [3m[38;5;246m<dbl>[39m[23m 610, 3140, 205, 1392, 2329, 516, 7130, 1, 1245, 7525, 526, 5489, 1105, 480, 4908, 137, 12, 74…"
+"1","$ year         [3m[38;5;246m<dbl>[39m[23m 1999, 1999, 1999, 1999, 1999, 1999, 1999, 1999, 1999, 1999, 1999, 1999, 1999, 1999, 1999, 1999, 1999, 1999, 1999, 1…
+$ animal_type  [3m[38;5;246m<chr>[39m[23m ""Dogs"", ""Dogs"", ""Dogs"", ""Dogs"", ""Dogs"", ""Dogs"", ""Dogs"", ""Dogs"", ""Dogs"", ""Dogs"", ""Dogs"", ""Dogs"", ""Dogs"", ""Dogs"", ""Do…
+$ outcome      [3m[38;5;246m<chr>[39m[23m ""Reclaimed"", ""Reclaimed"", ""Reclaimed"", ""Reclaimed"", ""Reclaimed"", ""Reclaimed"", ""Reclaimed"", ""Reclaimed"", ""Rehomed"", …
+$ region       [3m[38;5;246m<chr>[39m[23m ""Australian Capital Territory"", ""New South Wales"", ""Northern Territory"", ""Queensland"", ""South Australia"", ""Tasmania…
+$ region_total [3m[38;5;246m<dbl>[39m[23m 610, 3140, 205, 1392, 2329, 516, 7130, 1, 1245, 7525, 526, 5489, 1105, 480, 4908, 137, 12, 745, 955, 860, 380, 168,…"
 "1",""
 "1","
 "

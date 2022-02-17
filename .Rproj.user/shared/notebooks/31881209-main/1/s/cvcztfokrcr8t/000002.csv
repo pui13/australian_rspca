@@ -1,4 +1,0 @@
-"0","animals %>%"
-"0","  group_by(animal_type) %>%"
-"0","  summarise(total = sum(region_total, na.rm = T)) %>%"
-"0","  arrange(desc(total))"

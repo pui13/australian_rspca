@@ -7,12 +7,12 @@
 "1",""
 "1","
 "
-"1","$ animal_type [3m[38;5;246m<chr>[39m[23m ""Dog"", ""Dog"", ""Dog"", ""Dog"", ""Dog"", ""Dog"", ""Dog"", ""Dog"", ""Dog"", ""Dog"", ""Dog"", ""Dog"", ""Dog"", ""Do…
-$ category    [3m[38;5;246m<chr>[39m[23m ""Aggressive Animal"", ""Noise"", ""Noise"", ""Private Impound"", ""Wandering"", ""Attack"", ""Enclosure"", …
-$ suburb      [3m[38;5;246m<chr>[39m[23m ""Alice River"", ""Alice River"", ""Alice River"", ""Alice River"", ""Alice River"", ""Black River"", ""Bla…
-$ area        [3m[38;5;246m<chr>[39m[23m ""Division 1"", ""Division 1"", ""Division 1"", ""Division 1"", ""Division 1"", ""Division 1"", ""Division …
-$ date_range  [3m[38;5;246m<date>[39m[23m 2020-06-01, 2020-06-01, 2020-06-01, 2020-06-01, 2020-06-01, 2020-06-01, 2020-06-01, 2020-06-0…
-$ city        [3m[38;5;246m<chr>[39m[23m ""Townsville"", ""Townsville"", ""Townsville"", ""Townsville"", ""Townsville"", ""Townsville"", ""Townsvill…"
+"1","$ animal_type [3m[38;5;246m<chr>[39m[23m ""Dog"", ""Dog"", ""Dog"", ""Dog"", ""Dog"", ""Dog"", ""Dog"", ""Dog"", ""Dog"", ""Dog"", ""Dog"", ""Dog"", ""Dog"", ""Dog"", ""Dog"", ""Cat"", ""Dog…
+$ category    [3m[38;5;246m<chr>[39m[23m ""Aggressive Animal"", ""Noise"", ""Noise"", ""Private Impound"", ""Wandering"", ""Attack"", ""Enclosure"", ""Wandering"", ""Enclosur…
+$ suburb      [3m[38;5;246m<chr>[39m[23m ""Alice River"", ""Alice River"", ""Alice River"", ""Alice River"", ""Alice River"", ""Black River"", ""Black River"", ""Black Rive…
+$ area        [3m[38;5;246m<chr>[39m[23m ""Division 1"", ""Division 1"", ""Division 1"", ""Division 1"", ""Division 1"", ""Division 1"", ""Division 1"", ""Division 1"", ""Div…
+$ date_range  [3m[38;5;246m<date>[39m[23m 2020-06-01, 2020-06-01, 2020-06-01, 2020-06-01, 2020-06-01, 2020-06-01, 2020-06-01, 2020-06-01, 2020-06-01, 2020-06…
+$ city        [3m[38;5;246m<chr>[39m[23m ""Townsville"", ""Townsville"", ""Townsville"", ""Townsville"", ""Townsville"", ""Townsville"", ""Townsville"", ""Townsville"", ""Tow…"
 "1",""
 "1","
 "

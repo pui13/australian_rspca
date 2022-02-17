@@ -1,0 +1,73 @@
+---
+title: "Final project documentation - PDA"
+output:
+  html_document:
+    df_print: paged
+---
+
+
+
+## Context
+
+#### Business intelligence and data-driven decision making
+
+The RSPCA will be able to use the analysis carried out to gain insights in the regional patterns in animal type intake, the outcomes of animals received, the trend in the number of complaint calls for Townsville. This will help the organisation in deciding if their current efforts is having the desired result and decide what changes might be needed to be more efficient, based on whether regions have differing proportions of animals.
+
+#### Domain knowledge and the business context
+
+The RSPCA is an animal welfare organisation. They are the oldest and largest animal welfare organisation in Australia. Each year they receive over 100,000 animals into their shelters and adoption centres. The analysis carried out will see any trends or patterns for different regions, this in turn would help with their aim to help animals by showing where certain areas should be targeted.
+
+## Data
+
+#### Internal and external data sources
+
+
+For this project, three sets of data were used. The animal dataset was sourced directly from RSPCA Australia while the Brisbane and Townsville data is open data from the Australian Government's website.
+
+#### Types of data
+
+Animals dataframe -  a mixture of character and double variables  
+Brisbane - characters and a logical variable
+Townsville - all variables are characters
+
+
+#### Data formats
+
+All data used was in csv format
+
+#### Data quality and bias
+
+
+The only concern in the quality or bias of the data would be from the Townsville data as only two animal types are included, cat and dog. A broader range of animals would give a better insight into the complaint calls in Townsville.  
+
+
+## Ethics
+
+#### Ethical issues in data sourcing and extraction
+
+
+I have no ethical concerns with the data used, there are no information relating to humans in any of the the data used. 
+
+#### Ethical implications of business requirements
+
+There are no ethical implications of the business requirements, as this is to give a better understanding of the animals the RSPCA receives and the outcome of the animals.
+
+## Analysis
+
+#### Stages in the data analysis process
+
+* Understand business brief and what the questions mean
+* Clean data
+* Data cleaning
+* Exploratory data analysis
+* Carry out analysis
+* Summarise 
+
+#### Tools for data analysis
+
+The analysis was all carried out in R
+
+#### Descriptive, diagnostic, predictive and prescriptive analysis
+
+The analysis is mainly descriptive as the plots made are to make for easier understanding of what happened in the past, however there is one which is predictive, this is the forecast model made to predict what the call volumes might look like in the next 12 months.
+

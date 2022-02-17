@@ -1,6 +1,0 @@
-"0","bind_townsville_brisbane %>%"
-"0","  filter(!is.na(animal_type)) %>%"
-"0","  group_by(animal_type) %>%"
-"0","  summarise(calls = n(),"
-"0","            percentage_of_calls = n()/nrow(bind_townsville_brisbane)*100) %>%"
-"0","  arrange(desc(calls))"

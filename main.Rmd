@@ -283,7 +283,21 @@ animals %>%
        colour = "Region")
 ```
 
-Even looking at larger single plots, there aren't any obvious trends in per region. The only real insight from these plots is euthanasia is declining across regions but that was already shown in the overall plot.
+```{r}
+animals %>%
+  group_by(outcome, year) %>%
+  summarise(total = sum(region_total, na.rm = T)) %>%
+  group_by(year) %>%
+  mutate(annual_percentage = total/sum(total)*100) %>%
+  filter(outcome %in% c("Rehomed", "Reclaimed", "Euthanized")) %>%
+  ggplot(aes(year, annual_percentage, colour = outcome)) +
+  geom_line() +
+  labs(title = "Percentages for Reclaimed, Rehomed and Euthanized",
+       x = "Year",
+       y = "Percent")
+```
+
+The above plot shows the nationwide declining numbers for euthanasia. You can also quite clearly see an improving percentage for rehoming the animals which backs RSPCA's efforts in increasing this, however this is less visible in the reclaimed percentages.
 
 
 ## Total call volume for complaint calls: How has this trended over time?
@@ -514,4 +528,6 @@ Apart from South Brisbane, each area have the same top two type of complaint, fe
 ## Business Intelligence – using the insights you have found, can you predict how this might look for the upcoming year?
 
 
-
+* Animals received most likely to continually decline for New South Wales and Victoria, whereas Queensland will increase - due to wildlife intake increasing every year
+* Euthanasia of animals will decline
+* Rehoming increasing, showing RSPCA's drive for this is working and should continue going forward

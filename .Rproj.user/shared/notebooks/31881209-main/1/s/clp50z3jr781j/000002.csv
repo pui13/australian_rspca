@@ -1,7 +1,0 @@
-"0","animals %>%"
-"0","  filter(animal_type == ""Wildlife"","
-"0","         year %in% c(2011, 2018),"
-"0","         region == ""Queensland"") %>%"
-"0","  group_by(year) %>%"
-"0","  summarise(total = sum(region_total)) %>%"
-"0","  mutate(percent_increase = (total-8312)/8312 * 100)"
