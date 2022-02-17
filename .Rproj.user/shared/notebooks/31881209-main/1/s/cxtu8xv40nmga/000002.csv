@@ -1,0 +1,12 @@
+"0","townsville %>%"
+"0","  mutate(season = ifelse(month(date_range) %in% c(4:9),""cold"",""hot""),"
+"0","         year = year(date_range)) %>%"
+"0","  filter(year != 2013) %>%"
+"0","  group_by(year, season) %>%"
+"0","  summarise(calls = n()) %>%"
+"0","  group_by(year) %>%"
+"0","  pivot_wider(names_from = season, values_from = calls) %>%"
+"0","  mutate(percentage_increase = (cold-hot)/hot *100) %>%"
+"0","  select(year, percentage_increase)"
+"1","`summarise()` has grouped output by 'year'. You can override using the `.groups` argument.
+"

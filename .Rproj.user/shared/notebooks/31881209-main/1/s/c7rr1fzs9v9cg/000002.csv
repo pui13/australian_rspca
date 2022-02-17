@@ -1,0 +1,9 @@
+"0","townsville_calls <- townsville %>%"
+"0","  group_by(date_range) %>%"
+"0","  summarise(calls = n()) %>%"
+"0","  mutate(date_range = yearmonth(as.character(date_range))) %>%"
+"0","  as_tsibble()"
+"1","Using `date_range` as index variable.
+"
+"0","townsville_calls %>%"
+"0","  autoplot(calls)"

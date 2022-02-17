@@ -1,0 +1,8 @@
+"0","forecast_arima <- fit %>%"
+"0","  select(arima) %>%"
+"0","  fabletools::forecast(h = 12)"
+"0",""
+"0","forecast_snaive  <- fit %>%"
+"0","  select(snaive) %>%"
+"0","  fabletools::forecast(h = 12)"
+"0","  "

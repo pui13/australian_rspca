@@ -1,0 +1,18 @@
+"0","glimpse(brisbane)"
+"1","Rows: 31,330"
+"1",""
+"1","
+"
+"1","Columns: 6"
+"1",""
+"1","
+"
+"1","$ animal_type [3m[38;5;246m<chr>[39m[23m ""Dog"", ""Dog"", ""Dog"", ""Dog"", NA, NA, ""Dog"", NA, ""Dog"", ""Dog"", ""Dog"", ""Other Animal"", ""Dog"", ""Do…
+$ category    [3m[38;5;246m<chr>[39m[23m ""Fencing Issues"", ""Fencing Issues"", ""Defecating In Public"", ""Fencing Issues"", ""Attack On An An…
+$ suburb      [3m[38;5;246m<chr>[39m[23m ""sunnybank"", ""sunnybank hills"", ""sunnybank"", ""sunnybank"", ""calamvale"", ""stretton"", ""annerley"",…
+$ date_range  [3m[38;5;246m<date>[39m[23m 2016-01-01, 2016-01-01, 2016-01-01, 2016-01-01, 2016-01-01, 2016-01-01, 2016-01-01, 2016-01-0…
+$ city        [3m[38;5;246m<chr>[39m[23m ""Brisbane"", ""Brisbane"", ""Brisbane"", ""Brisbane"", ""Brisbane"", ""Brisbane"", ""Brisbane"", ""Brisbane""…
+$ area        [3m[38;5;246m<chr>[39m[23m ""South Brisbane"", ""South Brisbane"", ""South Brisbane"", ""South Brisbane"", ""South Brisbane"", ""Sou…"
+"1",""
+"1","
+"

@@ -1,0 +1,488 @@
+---
+title: "RSPCA Australia"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(fable)
+library(tsibble)
+library(lubridate)
+library(zoo)
+```
+
+```{r}
+animals <- read_csv("clean_data/animals_clean.csv")
+brisbane <- read_csv("clean_data/brisbane.csv")
+townsville <- read_csv("clean_data/townsville.csv")
+bind_townsville_brisbane <- read_csv("clean_data/bind_townsville_brisbane.csv")
+```
+
+
+```{r}
+glimpse(animals)
+```
+
+
+```{r}
+animals %>%
+  group_by(animal_type) %>%
+  summarise(total = sum(region_total, na.rm = T)) %>%
+  arrange(desc(total))
+```
+
+```{r}
+animals %>%
+  group_by(region) %>%
+  summarise(total = sum(region_total, na.rm = T)) %>%
+  arrange(desc(total))
+```
+
+```{r}
+glimpse(townsville)
+```
+
+
+```{r}
+townsville %>%
+  group_by(animal_type) %>%
+  summarise(calls = n())
+```
+
+```{r}
+townsville %>%
+  group_by(suburb) %>%
+  summarise(calls = n()) %>%
+  arrange(desc(calls)) %>%
+  head()
+```
+
+
+```{r}
+glimpse(brisbane)
+```
+
+```{r}
+brisbane %>%
+  group_by(animal_type) %>%
+  summarise(calls = n())
+```
+
+```{r}
+brisbane %>%
+  group_by(suburb) %>%
+  summarise(calls = n()) %>%
+  arrange(desc(calls)) %>%
+  head()
+```
+
+
+
+
+## Analysis on the types of animals that are injured, this also by Region – is there a species that is more liable to injury in certain regions?
+
+
+
+Average percentage of each `animal_type` received by each region between 2013-2018
+```{r}
+animals %>%
+  filter(year > 2013) %>%
+  group_by(region, animal_type) %>%
+  summarise(total = sum(region_total)) %>%
+  ungroup() %>%
+  group_by(region) %>%
+  mutate(region_percent = total/sum(total) *100) %>%
+  ggplot(aes(region, region_percent, fill = region)) +
+  geom_col() +
+  facet_wrap(~ animal_type) +
+  theme_minimal() +
+  labs(title = "Animal Group % Intake Per Region (2014-18) ",
+       y = "Regional Percentage",
+       fill = "Region") +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank()) 
+```
+Not a massive difference in each animal type's region percentage apart from Wildlife for Queensland, noticeably a lot bigger percentage than the rest. Reproduce the Wildlife part of the plot below
+
+```{r}
+animals %>%
+  filter(year > 2013) %>%
+  group_by(region, animal_type) %>%
+  summarise(avg_total = sum(region_total)/5) %>%
+  ungroup() %>%
+  group_by(region) %>%
+  mutate(region_percent = avg_total/sum(avg_total) *100) %>%
+  filter(animal_type == "Wildlife") %>%
+  ggplot(aes(region, region_percent, fill = region)) +
+  geom_col() +
+  labs( y = "Percentage of Region Intake",
+        title = "Wildlife Intake - 2014-18 Average",
+        fill = "Region") +
+  theme_minimal() +
+    theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+```
+
+
+
+```{r}
+animals %>%
+  group_by(region, year) %>%
+  summarise(total = sum(region_total, na.rm = T)) %>%
+  ggplot(aes(year, total, colour = region)) +
+  geom_line() +
+  geom_point() +
+  labs(title = "Number of Animals Received",
+       x = "Year",
+       y = " Total",
+       colour = "Region") +
+  theme_minimal()
+```
+* Can see most regions have animal intakes have remained reasonably similar throughout the time period
+* Queensland is of interest as the numbers increase year-on-year between 2011-17, will look into this in more detail
+
+
+```{r}
+animals %>%
+  filter(year > 2004, region == "Queensland") %>%
+  group_by(animal_type, year) %>%
+  summarise(total = sum(region_total)) %>%
+  ggplot(aes(year, total, colour = animal_type)) +
+  geom_line() +
+  geom_point() +
+  theme_minimal() +
+  labs( title = "Queensland's Yearly Animal Intake",
+        x = "Year",
+        y = "Total",
+        colour = "Category")
+```
+```{r}
+animals %>%
+  filter(animal_type == "Wildlife",
+         year %in% c(2011, 2018),
+         region == "Queensland") %>%
+  group_by(year) %>%
+  summarise(total = sum(region_total)) %>%
+  mutate(percent_increase = (total-8312)/8312 * 100)
+```
+* Can see the increase in Queensland's numbers is due to an ever increasing number of wildlife received
+* Wildlife numbers:
+| Year | Wildlife Received | Percentage Increase |
+|:----:|:-----------------:|---------------------|
+| 2011 |        8312       |                     |
+| 2018 |       25385       |         205%        |
+
+* Upon further reading, RSPCA Queensland operates specialist wildlife clinics and receive, treat, rehabilitate and re-release wildlife. This explains the outlying numbers compared to other animal types
+
+## What is the outcome? Does this differ by region?
+
+```{r}
+animals %>%
+  group_by(outcome, year) %>%
+  summarise(total = sum(region_total, na.rm = T)) %>%
+  ggplot(aes(year, total, colour = outcome)) +
+  geom_line() +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Outcome for All Animals Received",
+       x = "Year",
+       y = "Total",
+       colour = "Outcome")
+```
+* Can see a decline in animals euthanized along with an increase in animals getting rehomed
+
+Will now look at if there are any noticeable changes when split by region, instead of looking at total numbers will look at the percentage of each outcome per region.
+
+```{r}
+animals %>% 
+  group_by(outcome, year, region) %>%
+  summarise(total = sum(region_total, na.rm = T)) %>%
+  ungroup() %>%
+  group_by(year, region) %>%
+  mutate(region_percent = total/sum(total)*100) %>%
+  ggplot(aes(year, region_percent, colour = region)) +
+  geom_line() +
+  facet_wrap(~outcome, scales = "free_y")
+```
+Lines are messy, can't tell much from this plot. Will look at euthanized, rehomed and reclaimed individually as they take up the highest percentage.
+
+
+```{r}
+animals %>%
+  group_by(outcome,year, region) %>%
+  summarise(total = sum(region_total, na.rm = T)) %>%
+  ungroup() %>%
+  group_by(year, region) %>%
+  mutate(region_percent = total/sum(total)*100) %>% 
+  filter(outcome == "Euthanized") %>%
+  ggplot(aes(year, region_percent, colour = region)) +
+  geom_line() +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Euthanized Percentage Per Region",
+       x = "Year",
+       y = "Region Percentage",
+       colour = "Region")
+```
+
+
+```{r}
+animals %>%
+  group_by(outcome,year, region) %>%
+  summarise(total = sum(region_total, na.rm = T)) %>%
+  ungroup() %>%
+  group_by(year, region) %>%
+  mutate(region_percent = total/sum(total)*100) %>% 
+  filter(outcome == "Rehomed") %>%
+  ggplot(aes(year, region_percent, colour = region)) +
+  geom_line() +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Rehomed Percentage Per Region",
+       x = "Year",
+       y = "Region Percentage",
+       colour = "Region")
+```
+
+```{r}
+animals %>%
+  group_by(outcome,year, region) %>%
+  summarise(total = sum(region_total, na.rm = T)) %>%
+  ungroup() %>%
+  group_by(year, region) %>%
+  mutate(region_percent = total/sum(total)*100) %>% 
+  filter(outcome == "Reclaimed") %>%
+  ggplot(aes(year, region_percent, colour = region)) +
+  geom_line() +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Reclaimed Percentage Per Region",
+       x = "Year",
+       y = "Region Percentage",
+       colour = "Region")
+```
+
+Even looking at larger single plots, there aren't any obvious trends in per region. The only real insight from these plots is euthanasia is declining across regions but that was already shown in the overall plot.
+
+
+## Total call volume for complaint calls: How has this trended over time?
+
+For this question, I will be using the Townsville and Brisbane dataset provided. Both are in the Queensland region, with Townsville being a relatively small city (population ~ 180k) compared to Brisbane (population ~ 2.6m).
+
+
+
+```{r}
+townsville %>% 
+  group_by(date_range) %>%
+  summarise(calls = n()) %>%
+  mutate(apr_sept = ifelse(month(date_range) %in% c(4:9),T,F)) %>%
+  ggplot(aes(date_range, calls, colour = apr_sept, group = 1)) +
+  geom_line() +
+  geom_point() +
+  scale_colour_manual(labels = c("Oct-Mar", "Apr-Sept"),
+                      values = c("red", "blue")) +
+  theme_minimal() +
+  labs(title = "Townsville Monthly Calls",
+        x = "Year",
+        y = "Call Volume",
+        colour = "")
+
+```
+Can see call volumes have a seasonal trend, summer months (Southern Hemisphere seasons) have lower call volumes compared to winter.
+Will look at the difference between the the typically hottest months (Oct-Mar) compared to the cooler months.
+
+```{r}
+townsville %>%
+  mutate(season = ifelse(month(date_range) %in% c(4:9),"cold","hot"),
+         year = year(date_range)) %>%
+  filter(year != 2013) %>%
+  group_by(year, season) %>%
+  summarise(calls = n()) %>%
+  group_by(year) %>%
+  pivot_wider(names_from = season, values_from = calls) %>%
+  mutate(percentage_increase = (cold-hot)/hot *100) %>%
+  select(year, percentage_increase)
+```
+Above shows the percentage increase in calls from the hotter months to colder for each year. Can see a 
+
+ avg 26.7
+
+
+```{r}
+brisbane %>% 
+  group_by(date_range) %>%
+  summarise(calls = n()) %>%
+  ggplot(aes(date_range, calls)) +
+  geom_line() +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Brisbane Quarterly Calls",
+       x = "Year",
+       y = "Call Volume")
+```
+
+The call volumes have been increasing over time, this has mostly been a steady increase with the last quarter being a noticeable outlier, seeing a significantly higher call volume than any previous quarter. 
+
+## Predicting how call volumes might look for Townsville for the next 12 months
+
+
+```{r}
+townsville_calls <- townsville %>%
+  group_by(date_range) %>%
+  summarise(calls = n()) %>%
+  mutate(date_range = yearmonth(as.character(date_range))) %>%
+  as_tsibble()
+
+townsville_calls %>%
+  autoplot(calls)
+```
+
+
+```{r}
+fit <- townsville_calls %>%
+  model(
+    snaive = SNAIVE(calls),
+    arima = ARIMA(calls)
+  )
+
+```
+
+
+```{r}
+forecast_arima <- fit %>%
+  select(arima) %>%
+  fabletools::forecast(h = 12)
+
+forecast_snaive  <- fit %>%
+  select(snaive) %>%
+  fabletools::forecast(h = 12)
+  
+```
+
+```{r}
+forecast_arima %>%
+  autoplot(townsville_calls, level = 95) +
+  labs(title = "ARIMA forecast for Townsville call volume",
+       x = "Year",
+       y = "Calls",
+       level = "Prediction Interval %")
+```
+
+
+```{r}
+forecast_snaive %>%
+  autoplot(townsville_calls, level = 95) +
+  labs(title = "SNAIVE forecast for Townsville call volume",
+       x = "Year",
+       y = "Calls",
+       level = "Prediction Interval %")
+```
+
+
+```{r}
+# setting training data
+
+train <- townsville_calls %>%
+  filter_index("2013 October" ~ "2019 June")
+
+# run model on training set
+
+fit_train <- train %>%
+  model(
+    snaive = SNAIVE(calls),
+    arima = ARIMA(calls)
+  ) 
+
+# forecast from training set
+
+forecast_test <- fit_train %>%
+  fabletools::forecast(h = 12)
+
+# plot against actual values
+
+forecast_test %>%
+  autoplot(train, level = NULL) +
+    autolayer(filter_index(townsville_calls, "2019 July" ~ .), colour = "black") +
+  labs (title = "Forecasts for call volumes",
+        x = "Year",
+        y = "Calls")
+```
+Looks like the ARIMA model is more accurate as the line follows the observed value line closer. We'll now check the accuracy
+
+```{r}
+fabletools::accuracy(forecast_test, townsville_calls)
+```
+
+Looking at the results, ARIMA appears to be the best model to use as it fares better across all measures compared to SNAIVE.
+
+```{r}
+best_model <- forecast_arima %>%
+  autoplot(townsville_calls, level = 95) +
+  labs(title = "ARIMA forecast for Townsville call volume",
+       x = "Year",
+       y = "Calls",
+       level = "Prediction Interval %") +
+  theme_minimal()
+
+best_model
+```
+Looking at the forecast, we can see the seasonal trend continues and a slightly lower peak than previous years.
+
+## Is there a particular animal being called about the most?
+
+Using the combined dataset from Townwville and Brisbane as this gives the most observations.
+
+```{r}
+bind_townsville_brisbane %>%
+  filter(!is.na(animal_type)) %>%
+  group_by(animal_type) %>%
+  summarise(calls = n(),
+            percentage_of_calls = n()/nrow(bind_townsville_brisbane)*100) %>%
+  arrange(desc(calls))
+```
+* Removed NA's from `animal_type` so percent column doesn't sum up to 100%   
+
+A large majority of the calls, 70%, are dog related, this is followed by cats who take up 11% of the calls. I will now look to see if this trend has been consistent over times
+
+
+```{r}
+# filtered out before 2016 Q1 onwards as brisbane data starts from that quarter
+
+bind_townsville_brisbane %>%
+  filter(qtr >= as.yearqtr("2016 Q1"),
+         !is.na(animal_type)) %>%
+  group_by(animal_type, qtr) %>%
+  summarise(calls = n()) %>%
+  ggplot(aes(qtr, calls, colour = animal_type, group = 1)) +
+  geom_line() +
+  labs(title = "Brisbane & Townsville Complaint Calls",
+       x = "Year",
+       y = "Calls",
+       colour = "Animal Type") +
+  theme_minimal()
+```
+
+From the plot, we can see that dogs have consistently been the animal type with the highest call volume between 2016-2020. There aren't any major changes throughout in call volume, numbers dont differ too much for the time period picked.
+
+## Do particular suburbs have different type of complaint calls? Do they call about different animals?
+
+Will be using the Brisbane data for this, due to the volume of suburbs in Brisbane, I have grouped the suburbs into different areas, this should make for easier reading of results.
+
+```{r}
+brisbane %>%
+  filter(!is.na(category),
+         !is.na(area))%>%
+  group_by(area, category) %>%
+  summarise(calls = n()) %>%
+  ungroup(category) %>%
+  mutate(area_percent = calls/sum(calls)*100) %>%
+  arrange(desc(area_percent))
+```
+
+Apart from South Brisbane, each area have the same top two type of complaint, fencing issues and wandering. The South has Fencing as it's highest complaint but where it differs fencing trapping being it's second highest issue. 
+
+
+## Business Intelligence – using the insights you have found, can you predict how this might look for the upcoming year?
+

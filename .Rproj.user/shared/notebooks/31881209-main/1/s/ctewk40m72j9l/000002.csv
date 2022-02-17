@@ -1,0 +1,5 @@
+"0","brisbane %>%"
+"0","  group_by(suburb) %>%"
+"0","  summarise(calls = n()) %>%"
+"0","  arrange(desc(calls)) %>%"
+"0","  head()"

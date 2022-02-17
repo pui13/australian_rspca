@@ -1,0 +1,13 @@
+"0","animals %>%"
+"0","  group_by(outcome, year) %>%"
+"0","  summarise(total = sum(region_total, na.rm = T)) %>%"
+"0","  ggplot(aes(year, total, colour = outcome)) +"
+"0","  geom_line() +"
+"0","  geom_point() +"
+"0","  theme_minimal() +"
+"0","  labs(title = ""Outcome for All Animals Received"","
+"0","       x = ""Year"","
+"0","       y = ""Total"","
+"0","       colour = ""Outcome"")"
+"1","`summarise()` has grouped output by 'outcome'. You can override using the `.groups` argument.
+"

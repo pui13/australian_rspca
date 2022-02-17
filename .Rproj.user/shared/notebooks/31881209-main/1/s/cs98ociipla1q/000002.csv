@@ -1,0 +1,6 @@
+"0","fit <- townsville_calls %>%"
+"0","  model("
+"0","    snaive = SNAIVE(calls),"
+"0","    arima = ARIMA(calls)"
+"0","  )"
+"0",""
