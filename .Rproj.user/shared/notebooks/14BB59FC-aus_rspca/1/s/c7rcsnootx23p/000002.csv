@@ -1,4 +1,0 @@
-"0","# bind the two cleaned brisbane and townsville df together"
-"0",""
-"0","bind_townsville_brisbane <- bind_rows(brisbane_clean, townsville_clean) %>%"
-"0","  mutate(qtr = as.yearqtr(date_range, format = ""%Y-%m-%d""))"

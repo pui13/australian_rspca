@@ -1,6 +1,0 @@
-"0","townsville_clean %>%"
-"0","  mutate(apr_sept = ifelse("
-"0","    month(date_range) %in% c(4:9),"
-"0","    T,"
-"0","    F"
-"0","  ))"
